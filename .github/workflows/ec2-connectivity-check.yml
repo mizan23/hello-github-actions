@@ -8,7 +8,7 @@ on:
 jobs:
   check-ec2-connectivity:
     name: Verify EC2 Connection & Extract Metadata
-    runs-on: ubuntu-latest
+    runs-on: aws-runner
     
     steps:
       - name: Checkout Repository
