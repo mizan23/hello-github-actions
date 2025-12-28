@@ -69,14 +69,13 @@ jobs:
             hostname
 
             echo ""
-            echo "Public IP Address:"
             PUBLIC_IP=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" \
               http://169.254.169.254/latest/meta-data/public-ipv4)
 
             if [ -n "$PUBLIC_IP" ]; then
-              echo "$PUBLIC_IP"
+              echo "Public IP Address: ${PUBLIC_IP%.*}.***"
             else
-              echo "No public IPv4 assigned (private subnet or NAT)"
+              echo "No public IPv4 assigned"
             fi
 
             echo ""
