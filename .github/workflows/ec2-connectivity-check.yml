@@ -18,21 +18,17 @@ jobs:
         run: |
           set -e
 
-          - name: Setup SSH Key & Known Hosts
-          run: |
-            set -e
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
 
-            mkdir -p ~/.ssh
-            chmod 700 ~/.ssh
-
-            # Write private key ONLY if it does not already exist
-            if [ ! -f ~/.ssh/ec2_key ]; then
-              echo "Writing EC2 SSH private key..."
-              echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2_key
-              chmod 600 ~/.ssh/ec2_key
-            else
-              echo "EC2 SSH key already exists, skipping."
-            fi
+          # Write private key ONLY if it does not already exist
+          if [ ! -f ~/.ssh/ec2_key ]; then
+            echo "Writing EC2 SSH private key..."
+            echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2_key
+            chmod 600 ~/.ssh/ec2_key
+          else
+            echo "EC2 SSH key already exists, skipping."
+          fi
 
           # Add EC2 host to known_hosts ONLY if not already present
           if ! ssh-keygen -F "${{ secrets.EC2_HOST }}" > /dev/null; then
@@ -65,7 +61,6 @@ jobs:
             echo "          EC2 Instance Information"
             echo "=================================================="
 
-            # Get IMDSv2 token
             TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" \
               -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
 
