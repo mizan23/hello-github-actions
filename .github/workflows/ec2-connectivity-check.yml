@@ -7,7 +7,7 @@ on:
 
 jobs:
   check-ec2-connectivity:
-    name: Verify EC2 Connection & Extract Metadata
+    name: Verify EC2 Connection & Extract Aws Metadata
     runs-on: aws-runner
     
     steps:
